@@ -27,15 +27,13 @@ const App = () => {
               <Route path="/login" element={<LoginPage />} />
               
               {/* Protected Routes */}
-              <Route element={<Layout />}>
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/orders" element={<OrdersPage />} />
-                <Route path="/users" element={<UsersPage />} />
+              <Route path="/" element={<Layout />}>
+                <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="products" element={<ProductsPage />} />
+                <Route path="orders" element={<OrdersPage />} />
+                <Route path="users" element={<UsersPage />} />
+                <Route index element={<Navigate to="/dashboard" replace />} />
               </Route>
-              
-              {/* Redirect root to dashboard */}
-              <Route path="/" element={<Navigate to="/dashboard" replace />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
