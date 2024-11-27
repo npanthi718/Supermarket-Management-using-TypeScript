@@ -1,4 +1,4 @@
-export type UserRole = 'md' | 'store_manager' | 'store_keeper' | 'cashier' | 'customer';
+export type UserRole = 'md' | 'store_manager' | 'store_keeper' | 'cashier' | 'delivery_boy' | 'customer';
 
 export interface User {
   id: string;
@@ -18,11 +18,22 @@ export interface Order {
   id: string;
   user_id: string;
   total_amount: number;
-  status: 'pending' | 'completed' | 'cancelled';
+  status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   created_at: string;
+  assigned_to?: string;
 }
 
 export interface Customer extends User {
   orders: Order[];
   total_spent: number;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category: string;
+  image?: string;
 }

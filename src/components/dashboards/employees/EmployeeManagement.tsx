@@ -4,15 +4,13 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button";
 import { Plus, UserPlus } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/components/ui/use-toast";
+import { EmployeeForm } from "./EmployeeForm";
 
 export const EmployeeManagement = () => {
   const [employees, setEmployees] = useState<any[]>([]);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
 
-  // Load employees from localStorage on component mount
   useEffect(() => {
     const savedEmployees = localStorage.getItem('employees');
     if (savedEmployees) {
@@ -33,7 +31,6 @@ export const EmployeeManagement = () => {
     
     const updatedEmployees = [...employees, newEmployee];
     setEmployees(updatedEmployees);
-    // Save to localStorage for persistence
     localStorage.setItem('employees', JSON.stringify(updatedEmployees));
     
     setIsAddingEmployee(false);
@@ -64,66 +61,7 @@ export const EmployeeManagement = () => {
                 Add New Employee
               </DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleAddEmployee} className="space-y-4 animate-fade-in">
-              <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium">Full Name</label>
-                <Input 
-                  id="name" 
-                  name="name" 
-                  required 
-                  className="transition-all duration-200 focus:scale-[1.01]"
-                  placeholder="Enter employee's full name"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium">Email Address</label>
-                <Input 
-                  id="email" 
-                  name="email" 
-                  type="email" 
-                  required 
-                  className="transition-all duration-200 focus:scale-[1.01]"
-                  placeholder="Enter work email address"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="password" className="text-sm font-medium">Password</label>
-                <Input 
-                  id="password" 
-                  name="password" 
-                  type="password" 
-                  required 
-                  minLength={6}
-                  className="transition-all duration-200 focus:scale-[1.01]"
-                  placeholder="Minimum 6 characters"
-                />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="role" className="text-sm font-medium">Role</label>
-                <Select name="role" required>
-                  <SelectTrigger className="w-full transition-all duration-200 focus:scale-[1.01]">
-                    <SelectValue placeholder="Select employee role" />
-                  </SelectTrigger>
-                  <SelectContent className="animate-fade-in">
-                    <SelectItem value="store_manager" className="cursor-pointer hover:bg-primary/10 transition-colors">
-                      Store Manager
-                    </SelectItem>
-                    <SelectItem value="store_keeper" className="cursor-pointer hover:bg-primary/10 transition-colors">
-                      Store Keeper
-                    </SelectItem>
-                    <SelectItem value="cashier" className="cursor-pointer hover:bg-primary/10 transition-colors">
-                      Cashier
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button 
-                type="submit" 
-                className="w-full hover:scale-[1.02] transition-transform duration-200"
-              >
-                Create Account
-              </Button>
-            </form>
+            <EmployeeForm onSubmit={handleAddEmployee} />
           </DialogContent>
         </Dialog>
       </CardHeader>
