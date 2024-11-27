@@ -18,6 +18,7 @@ export const EmployeeManagement = () => {
     const newEmployee = {
       name: formData.get('name'),
       email: formData.get('email'),
+      password: formData.get('password'),
       role: formData.get('role'),
       status: 'Active'
     };
@@ -53,6 +54,10 @@ export const EmployeeManagement = () => {
               <div className="space-y-2">
                 <label htmlFor="email">Email</label>
                 <Input id="email" name="email" type="email" required />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="password">Password</label>
+                <Input id="password" name="password" type="password" required minLength={6} />
               </div>
               <div className="space-y-2">
                 <label htmlFor="role">Role</label>
