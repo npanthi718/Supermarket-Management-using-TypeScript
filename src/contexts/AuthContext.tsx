@@ -20,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setAuthState(prev => ({ ...prev, isLoading: true }));
     
     try {
-      // Temporary mock login for MD
+      // Check MD credentials
       if (email === 'head@yourchoice.com' && password === 'headsupermarket') {
         setAuthState({
           user: {
@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Check for employee credentials from localStorage
+      // Check for employee credentials
       const employeesString = localStorage.getItem('employees');
       if (employeesString) {
         const employees = JSON.parse(employeesString);
@@ -59,6 +59,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           toast({
             title: "Welcome back!",
             description: `Successfully logged in as ${employee.name}`,
+          });
+          return;
+        }
+      }
+
+      // Check for customer credentials
+      const usersString = localStorage.getItem('users');
+      if (usersString) {
+        const users = JSON.parse(usersString);
+        const user = users.find((u: any) => 
+          u.email === email && u.password === password
+        );
+
+        if (user) {
+          setAuthState({
+            user: {
+              id: user.id,
+              email: user.email,
+              role: user.role,
+              name: user.name
+            },
+            isLoading: false
+          });
+          toast({
+            title: "Welcome back!",
+            description: `Successfully logged in as ${user.name}`,
           });
           return;
         }

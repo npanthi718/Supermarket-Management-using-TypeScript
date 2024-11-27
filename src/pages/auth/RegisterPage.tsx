@@ -23,7 +23,33 @@ export const RegisterPage = () => {
     e.preventDefault();
     
     try {
-      // TODO: Implement Supabase registration
+      const newUser = {
+        id: `user-${Date.now()}`,
+        email,
+        password,
+        name,
+        role: 'customer',
+        created_at: new Date().toISOString()
+      };
+
+      // Get existing users or initialize empty array
+      const existingUsersString = localStorage.getItem('users');
+      const existingUsers = existingUsersString ? JSON.parse(existingUsersString) : [];
+      
+      // Check if email already exists
+      if (existingUsers.some((user: any) => user.email === email)) {
+        toast({
+          title: "Registration failed",
+          description: "Email already exists",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Add new user and save to localStorage
+      const updatedUsers = [...existingUsers, newUser];
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+
       toast({
         title: "Registration successful!",
         description: "Please login with your new account",
@@ -63,6 +89,7 @@ export const RegisterPage = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                className="transition-all duration-200 focus:scale-[1.01]"
               />
             </div>
 
@@ -77,6 +104,7 @@ export const RegisterPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="transition-all duration-200 focus:scale-[1.01]"
               />
             </div>
 
@@ -91,10 +119,15 @@ export const RegisterPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                minLength={6}
+                className="transition-all duration-200 focus:scale-[1.01]"
               />
             </div>
 
-            <Button type="submit" className="w-full">
+            <Button 
+              type="submit" 
+              className="w-full hover:scale-[1.02] transition-transform duration-200"
+            >
               Register
             </Button>
           </form>
