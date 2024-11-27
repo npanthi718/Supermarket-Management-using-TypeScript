@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,14 @@ export const EmployeeManagement = () => {
   const [employees, setEmployees] = useState<any[]>([]);
   const [isAddingEmployee, setIsAddingEmployee] = useState(false);
 
+  // Load employees from localStorage on component mount
+  useEffect(() => {
+    const savedEmployees = localStorage.getItem('employees');
+    if (savedEmployees) {
+      setEmployees(JSON.parse(savedEmployees));
+    }
+  }, []);
+
   const handleAddEmployee = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -23,7 +31,11 @@ export const EmployeeManagement = () => {
       status: 'Active'
     };
     
-    setEmployees([...employees, newEmployee]);
+    const updatedEmployees = [...employees, newEmployee];
+    setEmployees(updatedEmployees);
+    // Save to localStorage for persistence
+    localStorage.setItem('employees', JSON.stringify(updatedEmployees));
+    
     setIsAddingEmployee(false);
     toast({
       title: "Employee account created",

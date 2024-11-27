@@ -37,8 +37,33 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
         return;
       }
+
+      // Check for employee credentials from localStorage
+      const employeesString = localStorage.getItem('employees');
+      if (employeesString) {
+        const employees = JSON.parse(employeesString);
+        const employee = employees.find((emp: any) => 
+          emp.email === email && emp.password === password
+        );
+
+        if (employee) {
+          setAuthState({
+            user: {
+              id: `emp-${Date.now()}`,
+              email: employee.email,
+              role: employee.role,
+              name: employee.name
+            },
+            isLoading: false
+          });
+          toast({
+            title: "Welcome back!",
+            description: `Successfully logged in as ${employee.name}`,
+          });
+          return;
+        }
+      }
       
-      // TODO: Implement actual Supabase auth here
       throw new Error('Invalid credentials');
     } catch (error) {
       toast({
