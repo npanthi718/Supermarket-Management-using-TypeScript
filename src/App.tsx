@@ -7,6 +7,7 @@ import { Layout } from "@/components/layout/Layout";
 import { AuthProvider } from "@/contexts/AuthContext";
 
 // Pages
+import { HomePage } from "@/pages/HomePage";
 import { LoginPage } from "@/pages/auth/LoginPage";
 import { DashboardPage } from "@/pages/DashboardPage";
 import { ProductsPage } from "@/pages/ProductsPage";
@@ -24,6 +25,7 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               
               {/* Protected Routes */}
@@ -32,7 +34,6 @@ const App = () => {
                 <Route path="products" element={<ProductsPage />} />
                 <Route path="orders" element={<OrdersPage />} />
                 <Route path="users" element={<UsersPage />} />
-                <Route index element={<Navigate to="/dashboard" replace />} />
               </Route>
             </Routes>
           </BrowserRouter>
