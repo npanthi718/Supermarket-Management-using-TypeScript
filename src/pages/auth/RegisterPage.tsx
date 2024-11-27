@@ -11,24 +11,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useAuth } from "@/contexts/AuthContext";
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const [name, setName] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     try {
-      await login(email, password);
-      navigate("/dashboard");
+      // TODO: Implement Supabase registration
+      toast({
+        title: "Registration successful!",
+        description: "Please login with your new account",
+      });
+      navigate("/login");
     } catch (error) {
       toast({
-        title: "Login failed",
-        description: "Invalid email or password",
+        title: "Registration failed",
+        description: "Please try again",
         variant: "destructive",
       });
     }
@@ -42,12 +46,26 @@ export const LoginPage = () => {
             Your Choice Supermarket
           </CardTitle>
           <CardDescription className="text-center">
-            Login to your account
+            Create a new account
           </CardDescription>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="name" className="text-sm font-medium">
+                Full Name
+              </label>
+              <Input
+                id="name"
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium">
                 Email
@@ -69,7 +87,7 @@ export const LoginPage = () => {
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -77,16 +95,16 @@ export const LoginPage = () => {
             </div>
 
             <Button type="submit" className="w-full">
-              Login
+              Register
             </Button>
           </form>
         </CardContent>
 
         <CardFooter className="flex flex-col space-y-2">
           <p className="text-sm text-muted-foreground text-center">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-primary hover:underline">
-              Register here
+            Already have an account?{" "}
+            <Link to="/login" className="text-primary hover:underline">
+              Login here
             </Link>
           </p>
         </CardFooter>
